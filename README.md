@@ -1,5 +1,5 @@
 # pkmaspsql96
-
+__using \x to enable vertical display__
 ## What is new in PostgreSQL 9.6?
 
 ### Understanding new database administration functions
@@ -28,7 +28,11 @@ SELECT phraseto_tsquery('Under pressure') to_tsvector('Something was under some 
 ```
 SELECT phraseto_tsquery('Under pressure')@@to_tsvector('Under pressure by David Bowie hit number 1 again');
 ```
-in 9.6(personally I failed this. No reason?)
+in 9.6 __(personally I failed this. No reason?)__
 ```
 SELECT tsquery('united <2> nations')@@to_tsvector('are we really united, happy nations?');
 ```
+### Using new backup and replication functionality
+#### Streamlining wal_level and monitoring
+New ```pg_stat_wal_receiver``` function in 9.6.  
+It is basically the slave-side mirror of the ```pg_stat_replication``` function and helps to determine the state of replication.

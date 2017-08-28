@@ -78,3 +78,17 @@ ROLLBACK;
 d t_test  //error
 ```
 ### Understanding basic locking
+Rules
+- Multiple users can read the same data at the same time without blocking each other.
+- A transaction can see only those changes that have already been committed.
+- __Writing transactions won't block reading transactions.__
+- PostgreSQL will only lock rows affected by the UPDATE. So if you have 1,000 rows, you can theoretically run 1,000 concurrent changes on the same table.
+
+#### Avoiding typical mistakes and explicit locking
+```
+WITH x AS (UPDATE t_watermark SET id = id + 1 RETURNING *) 
+INSERT INTO t_invoice  
+SELECT * FROM x RETURNING *;
+```
+
+### Making use of FOR SHARE and FOR UPDATE

@@ -92,3 +92,10 @@ SELECT * FROM x RETURNING *;
 ```
 
 ### Making use of FOR SHARE and FOR UPDATE
+```
+BEGIN; 
+SELECT * FROM invoice WHERE processed = false FOR UPDATE; 
+** application magic will happen here ** 
+UPDATE invoice SET processed = true ... 
+COMMIT;
+```

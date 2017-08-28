@@ -36,3 +36,32 @@ SELECT tsquery('united <2> nations')@@to_tsvector('are we really united, happy n
 #### Streamlining wal_level and monitoring
 New ```pg_stat_wal_receiver``` function in 9.6.  
 It is basically the slave-side mirror of the ```pg_stat_replication``` function and helps to determine the state of replication.
+
+
+## Understanding Transactions and Locking
+### Working with PostgreSQL transactions
+#### Making use of savepoints
+```
+test=# BEGIN; 
+BEGIN 
+test=# SELECT 1; 
+ ?column?  
+---------- 
+        1 
+(1 row) 
+
+test=# SAVEPOINT a; 
+SAVEPOINT 
+test=# SELECT 2 / 0; 
+ERROR:  division by zero 
+test=# ROLLBACK TO SAVEPOINT a; 
+ROLLBACK 
+test=# SELECT 3; 
+ ?column?  
+---------- 
+        3 
+(1 row) 
+
+test=# COMMIT; 
+COMMIT 
+```

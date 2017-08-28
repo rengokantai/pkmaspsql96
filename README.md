@@ -65,3 +65,16 @@ test=# SELECT 3;
 test=# COMMIT; 
 COMMIT 
 ```
+What will happen if you try to reach a savepoint after a transaction has ended?  
+The life of a savepoint ends as soon as the transaction ends.  
+In other words, there is no way to return to a certain point in time after the transactions have been completed.  
+
+#### Transactional DDLs
+```
+BEGIN;
+CREATE TABLE t_test (id int); 
+ALTER TABLE t_test ALTER COLUMN id TYPE int8; 
+ROLLBACK;
+d t_test  //error
+```
+### Understanding basic locking
